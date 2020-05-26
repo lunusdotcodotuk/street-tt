@@ -1,7 +1,7 @@
 version: "3"
 services:
-  phpunit:
-    container_name: phpunit
+  street-tt:
+    container_name: street-tt
     build:
       context: .
       dockerfile: Dockerfile
