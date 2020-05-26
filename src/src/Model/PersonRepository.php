@@ -3,10 +3,11 @@
 namespace StreetTT\Model;
 
 use ArrayAccess;
+use Countable;
 use InvalidArgumentException;
 use Iterator;
 
-class PersonRepository implements ArrayAccess, Iterator
+class PersonRepository implements ArrayAccess, Iterator, Countable
 {
     private array $persons;
 
@@ -28,6 +29,9 @@ class PersonRepository implements ArrayAccess, Iterator
     public function offsetSet($offset, $value): void
     {
         if (is_a($value, Person::class)) {
+            if (is_null($offset)) {
+                $offset = count($this->persons);
+            }
             $this->persons[$offset] = $value;
         } else {
             throw new InvalidArgumentException('The argument supplied was not a valid Person type');
@@ -63,5 +67,10 @@ class PersonRepository implements ArrayAccess, Iterator
     public function rewind()
     {
         reset($this->persons);
+    }
+
+    public function count()
+    {
+        return count($this->persons);
     }
 }
