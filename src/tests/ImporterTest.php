@@ -44,4 +44,19 @@ final class ImporterTest extends TestCase
         $this->assertEquals(2, count($personRepository));
         $this->assertEquals(1, count($invalidInputs));
     }
+
+    public function testCanImportPeopleWithJoinedNames(): void
+    {
+        $people = ["Mr John Smith", "invalid", "Mister J Smith", "Mr John Smith and Mr Joe Bloggs", "Mr & Mrs Test"];
+        $importer = new Importer($people);
+        $importer->import();
+        $personRepository = $importer->getPersonRepository();
+        $this->assertInstanceOf(
+            PersonRepository::class,
+            $personRepository
+        );
+        $invalidInputs = $importer->getInvalidInputs();
+        $this->assertEquals(6, count($personRepository));
+        $this->assertEquals(1, count($invalidInputs));
+    }
 }
