@@ -59,4 +59,20 @@ final class ImporterTest extends TestCase
         $this->assertEquals(6, count($personRepository));
         $this->assertEquals(1, count($invalidInputs));
     }
+
+    public function testImportCsvFile(): void
+    {
+        $names = [];
+        if (($handle = fopen("/var/www/tests/tests.csv", "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $names[] = $data[0];
+            }
+            fclose($handle);
+        }
+        $this->assertEquals(16, count($names));
+        $importer = new Importer($names);
+        $importer->import();
+        $personRepository = $importer->getPersonRepository();
+        var_dump($personRepository);
+    }
 }

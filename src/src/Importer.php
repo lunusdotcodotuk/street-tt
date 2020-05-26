@@ -106,7 +106,7 @@ class Importer
         }
         foreach ($tempNames as $key=>$newName) {
             if (count($newName) < 2) {
-                if ($key = 0) {
+                if ($key == 0) {
                     $newName[1] = $tempNames[1][count($tempNames[1])-1];
                 } else {
                     $newName[1] = $tempNames[0][count($tempNames[0])-1];
